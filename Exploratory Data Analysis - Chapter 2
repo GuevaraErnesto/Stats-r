@@ -1,0 +1,108 @@
+### Exploring categorical data ###
+
+Getting to know categories inside a variable:
+
+levels(dataframe$factorvariable)
+
+Checking two factors at the same time (2-way contingency table):
+
+table(dataframe$factorvariable, dataframe$factorvariable)
+
+Dropping useless levels:
+
+new_dataframe <- dataframe %>%
+  filter(variable != "Level we're dropping") %>%
+  droplevels()
+
+# Count vs. proportions #
+
+new_table <– table(dataframe$factorvariable, dataframe$factorvariable)
+
+prop.table(new_table)
+prop.table(new_table, 1) # It is used to condition the data by row. The sum is 1.
+prop.table(new_table, 2) #  It is used to condition the data by column. The sum is 1.
+
+# Ploting counts 
+ggplot(df, aes(x = var, fill = var2)) +
+  geom_bar()
+  
+# Plotting proportions
+ggplot(df, aes(x = var, fill = var2)) + 
+  geom_bar(position = "fill") +
+  ylab("proportion")
+
+How to create a table of counts for a single variable (Marginal Distribution):
+
+table(dataframe$variable)
+
+How to plot it with a single bar chart:
+
+ggplot(data = dataframe)+
+  geom_bar(mapping = aes(variable))
+  
+Faceting for an additional variable: 
+
+ggplot(data = dataframe) +
+  geom_bar(mapping = aes(variable)) +
+  facet_wrap(~align)
+  
+# Rearranging factors for plots:
+
+dataframe$variable <- factor(dataframe$variable, levels = c("small", "medium", "large"))   # Desired order
+
+# Changing label orientation for better readabilty:
+
+plot+ 
+  theme(axis.text.x = element_text(angle = 90))
+
+
+### Exploring numerical data ###
+
+Recommended geometries: histogram (geom_histogram), density (geom_density), boxplot (geom_boxplot).
+
+Distribution of one numerical variable: 
+Marginal vs. Conditional.
+
+Conditional adds faceting to plots.
+
+ggplot2 + filter()
+
+df %>%
+  filter(variable < 2) %>%
+  ggplot(aes(x = var)) %>%
+  geom_histogram()
+  
+### Facet Grid ###
+
+"Faceting is a valuable technique for looking at several conditional distributions at the same time. 
+If the faceted distributions are laid out in a grid, you can consider the association between a variable and two others, 
+one on the rows of the grid and the other on the columns."
+
+Plots for 3 variables:
+
+ggplot(dataframe) + 
+  geom_density(aes(x = variable)) + 
+  facet_grid(variable2 ~ variable3, labeller = label_both)    ### First variable will be represented by rows, second variable will be represented by columns.
+                                                              ### Labeller makes it easier to interpret the plots.
+
+When observations are heavily skewed, IQR() is a good measure for variability.
+Standard deviation is sensitive to outliers.
+
+### Shapes of a distribution ###
+
+Based on the mode (they are quite self-explanatory): 
+- Unimodal.
+- Bimodal.
+- Multimodal.
+- Uniform.
+
+Based on the skew (idem):
+- Left-skewed.
+- Right-skewed.
+- Symmetric.
+When heavily skewed, we can use the log() function in order to appreciate the visualization better.
+
+
+
+
+
