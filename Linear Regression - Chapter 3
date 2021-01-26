@@ -1,0 +1,24 @@
+In augment() the .hat is the leverage. Datapoints with height leverage might may or may not affect the regression line.
+If it does, it's called influential.
+High leverage + High residual = Influence (Cooks distance)
+
+The leverage of an observation in a regression model is defined entirely in terms of the distance of that observation 
+from the mean of the explanatory variable. That is, observations close to the mean of the explanatory variable have low leverage, 
+while observations far from the mean of the explanatory variable have high leverage. 
+Points of high leverage may or may not be influential.
+
+How to obtain the coefficient of determination in R:
+We apply the lm function to a formula that describes the variable z by the variable y, 
+and save the linear regression model in a new variable x.lm.
+
+> x.lm = lm(eruptions ~ waiting, data=faithful)
+Then we extract the coefficient of determination from the r.squared attribute of its summary.
+
+> summary(x.lm)$r.squared 
+[1] 0.81146
+
+
+### Obtain the RMSE 
+
+x.sum = summary(x)
+x.sum$sigma
