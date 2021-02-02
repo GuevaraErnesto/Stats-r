@@ -1,0 +1,59 @@
+Parallel slopes models
+
+Regression model for two numeric variables and one categorical variable.
+If our categorical variable consists of two options we can make it binary.
+
+newer { 0: 1999, 1:2008
+
+y(hat) = coef + coef2(num_var) + coef3(num_cat)
+
+Visualization:
+data_space + 
+  geom_line(data = augment(model), aes(y = .fitted, color = factor.year))
+  
+# Augment the model
+augmented_mod <- augment(mod)
+glimpse(augmented_mod)
+
+# scatterplot, with color
+data_space <- ggplot(augmented_mod, aes(x = wheels, y = totalPr, color = cond)) + 
+  geom_point()
+  
+# single call to geom_line()
+data_space + 
+  geom_line(aes(y = .fitted))
+  
+### MODEL FIT ###
+In linear:
+r^2 = 1 - SSE / SST
+
+SSE smaller - r^2 increases.
+r^2 
+ 
+In multiple: 
+r^2 = 1 - SSE / SST * n - 1 / n - p - 1
+
+R-squared vs. adjusted R-squared
+Two common measures of how well a model fits to data are R^2 (the coefficient of determination) and the adjusted R^2.
+The former measures the percentage of the variability in the response variable that is explained by the model. 
+To compute this, we define
+
+r^2 = 1 - SSE / SST
+ 
+where SSE and SST are the sum of the squared residuals, and the total sum of the squares, respectively. 
+One issue with this measure is that the SSE can only decrease as new variable are added to the model, 
+while the SST depends only on the response variable and therefore is not affected by changes to the model. 
+This means that you can increase R^2 by adding any additional variable to your model—even random noise.
+
+The adjusted R^2 includes a term that penalizes a model for each additional explanatory variable (where p is the number of explanatory variables).
+ 
+ r^2 = 1 - SSE / SST * n - 1 / n - p - 1
+
+predict() Returns a vector with predicted values Y(hat)
+augment() Returns a dataframe with the response variable, explanatory variables, predicted values and information about the residuals.
+
+RSME - sigma
+R^2 - r.squared
+
+
+
